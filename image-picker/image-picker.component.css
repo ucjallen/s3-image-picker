@@ -1,0 +1,20 @@
+#outer-card {
+  background-color: #FFFFFF;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 400px;
+}
+
+.profile-button {
+  cursor: pointer;
+  margin-bottom: 12px;
+  background-color: #304261;
+  color: white;
+  text-align: center;
+}
+
+image-cropper {
+  --cropper-outline-color: #FFFFFF;
+  --cropper-overlay-color: #FFFFFF;
+  margin-bottom: 20px;
+}

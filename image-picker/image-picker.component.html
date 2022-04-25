@@ -1,0 +1,23 @@
+<mat-card id="outer-card" *ngIf="showImageCropper">
+  <image-cropper
+    [imageBase64]="selectedFile.src"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="1 / 1"
+    [roundCropper]="true"
+    [hideResizeSquares]="hideResizeSquares"
+    [cropperMinWidth]="150"
+    [cropperMinHeight]="150"
+    [resizeToWidth]="200"
+    [resizeToHeight]="200"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"></image-cropper>
+  <mat-card class="profile-button" (click)="doImageUpload()">
+    Save
+  </mat-card>
+  <mat-card class="profile-button" (click)="cancelImageUpload()">
+    Cancel
+  </mat-card>
+</mat-card>

@@ -1,0 +1,242 @@
+#container {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+}
+
+#top-section {
+  flex: 0 1 auto;
+  background-color: #304261;
+  min-height: 230px;
+}
+
+#circle {
+  cursor: pointer;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+#circle img {
+  width: 75px;
+  height: 75px;
+}
+
+#greeting {
+  color: white;
+  text-align: center;
+}
+
+#grid-container {
+  width: 320px;
+  margin-left: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 90px);
+  grid-template-rows: repeat(1, 80px);
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.button {
+  margin: auto;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  height: 83px;
+  width: 83px;
+}
+
+#account-button {
+  text-align: center;
+  color: #304261
+}
+
+#account-button i {
+  padding-top: 7px;
+  color: #304261;
+}
+
+#account-text {
+  padding-top: 3px;
+  display: block;
+}
+
+#my-qr-button {
+  text-align: center;
+  color: #304261
+}
+
+#my-qr-button img {
+  padding-top: 1px;
+  width: 34px;
+}
+
+#qr-code-text {
+  display: block;
+  padding-top: 3px;
+}
+
+#mode-button {
+  text-align: center;
+}
+
+.stacked-circle {
+  display: inline-block;
+  background-color: white;
+  border: 3px solid #304261;
+  border-radius: 18px;
+  height: 25px;
+  width: 25px;
+}
+
+.shift-left {
+  margin-left: -12.5px;
+}
+
+.single {
+  border: 3px solid #FF7F50;
+}
+
+#single-circle {
+  padding-top: 6px;
+}
+
+#three-circles {
+  padding-top: 6px;
+}
+
+#single-mode-name {
+  padding-top: 2px;
+  display: block;
+  color: #FF7F50;
+}
+
+#multi-mode-name {
+  padding-top: 2px;
+  display: block;
+}
+
+#spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.blue-header {
+  color: #304261;
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 0px;
+  font-weight: normal;
+}
+
+
+/*
+  -------------------- App Select section --------------------
+*/
+#app-section {
+  flex: 1 1 auto;
+  width: 100%;
+  background-color: #304261;
+}
+
+.inside-bottom {
+  background-color: #FFFFFF;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 200px;
+}
+
+.app-section-header {
+  color: #304261;
+  text-align: center;
+  margin-bottom: 0px;
+  font-weight: normal;
+}
+
+/*
+-------------------- Account section --------------------
+*/
+#account-section {
+  margin-top: -100px;
+}
+
+#button-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#button-left {
+  margin-right: 50px;
+}
+
+#button-right {
+  margin-left: 50px;
+}
+
+.center-field {
+  margin-top: 8px;
+  text-align: center;
+}
+
+/*
+-------------------- QR Code section --------------------
+*/
+#qr-code-section {
+  margin-top: -100px;
+}
+
+#smaller-qr-code-container {
+  min-height: 300px;
+}
+
+#smaller-qr-code {
+  padding-top: 75px;
+}
+
+#medium-qr-code-container {
+  min-height: 400px;
+}
+
+#medium-qr-code {
+  padding-top: 100px;
+}
+
+#bigger-qr-code-container {
+  min-height: 500px;
+}
+
+#bigger-qr-code {
+  padding-top: 125px;
+}
+
+#close-button {
+  float: right;
+  margin-right: 20px;
+  margin-left: -47px;
+  margin-top: 5px;
+  color: #FF7F50;
+}
+
+/*
+-------------------- Add App section --------------------
+*/
+#add-app-section {
+  margin-top: -100px;
+}
+
+/*
+-------------------- Edit App section --------------------
+*/
+#edit-app-section {
+  margin-top: -100px;
+}

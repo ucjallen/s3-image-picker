@@ -1,0 +1,93 @@
+<div id="container" *ngIf="isAuthenticated && userData && profileLoaded">
+  <div *ngIf="isAuthenticated && userData" id="top-section">
+    <div id="circle">
+      <img crossorigin="anonymous" src="{{ profilePictureUrl }}">
+    </div>
+    <h2 id="greeting">Hi {{ userData.firstName }}</h2>
+    <div id="grid-container">
+      <div id="account-button" class="button" (click)="accountButtonClicked()">
+        <i class="far fa-user fa-2x"></i>
+        <span id="account-text">Account</span>
+      </div>
+      <div id="my-qr-button" class="button" (click)="qrButtonClicked()">
+        <img id="qr-code-image" src="/assets/qrcode-alt.png">
+        <span id="qr-code-text">My QR</span>
+      </div>
+      <div id="mode-button" class="button" (click)="toggleMode()">
+        <div *ngIf="userData.direct.enabled" id="single-circle">
+          <div class="stacked-circle single"></div>
+          <span id="single-mode-name">Mode</span>
+        </div>
+        <div *ngIf="!userData.direct.enabled" id="three-circles" >
+          <div class="stacked-circle"></div>
+          <div class="stacked-circle shift-left"></div>
+          <div class="stacked-circle shift-left"></div>
+          <span id="multi-mode-name">Mode</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selection==='none'" id="app-section">
+    <div class="inside-bottom">
+      <h3 class="app-section-header" *ngIf="userData.direct.enabled">Direct To App</h3>
+      <h3 class="app-section-header" *ngIf="!userData.direct.enabled">Your Apps</h3>
+      <app-drag-drop [userData]="userData" (saveDataEvent)="saveUserData(false)" (buttonClickedEvent)="dragDropButtonClicked($event)"></app-drag-drop>
+    </div>
+  </div>
+
+  <div *ngIf="selection==='add-app'" id="add-app-section">
+    <div class="inside-bottom">
+      <h2 class="blue-header">Add New App</h2>
+      <app-add-app></app-add-app>
+      <div id="button-container" class="center-field">
+        <button mat-raised-button (click)="saveAddApp()" id="button-left" color="primary">Add</button>
+        <button mat-raised-button (click)="cancelAddApp()" id="button-right" color="basic">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selection==='edit-app'" id="edit-app-section">
+    <div class="inside-bottom">
+      <app-edit-app></app-edit-app>
+    </div>
+  </div>
+
+  <div *ngIf="selection==='account'" id="account-section">
+    <div class="inside-bottom">
+      <app-edit-account [userData]="userData"></app-edit-account>
+      <div id="button-container" class="center-field">
+        <button mat-raised-button (click)="saveUserData(true)" id="button-left" color="primary">Save</button>
+        <button mat-raised-button (click)="cancelAccountEdit()" id="button-right" color="basic">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selection==='qr'" id="qr-code-section">
+    <div class="inside-bottom">
+      <h2 class="blue-header">My QR
+        <span id="close-button" (click)="cancelQRCode()">
+          <i class="far fa-lg fa-times-circle"></i>
+        </span>
+      </h2>
+      <div *ngIf="screenHeight < 450" id="smaller-qr-code-container">
+        <div id="smaller-qr-code">
+          <app-qr-code [scanId]="userData.scanId" [scanKey]="userData.scanKey"></app-qr-code>
+        </div>
+      </div>
+      <div *ngIf="screenHeight >= 450 && screenHeight <= 550" id="medium-qr-code-container">
+        <div id="medium-qr-code">
+          <app-qr-code [scanId]="userData.scanId" [scanKey]="userData.scanKey"></app-qr-code>
+        </div>
+      </div>
+      <div *ngIf="screenHeight > 550" id="bigger-qr-code-container">
+        <div id="bigger-qr-code">
+          <app-qr-code [scanId]="userData.scanId" [scanKey]="userData.scanKey"></app-qr-code>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showSpinner || !userData" id="spinner">
+  <mat-spinner></mat-spinner>
+</div>
