@@ -6,7 +6,6 @@ import { HttpParams } from "@angular/common/http";
 
 import { AddyaDbService } from '../../addya-db.service';
 import { AwsAuthService } from '../../aws-auth.service';
-import { UpdateRequest } from '../../model/db_update_request';
 
 import Amplify from 'aws-amplify';
 
@@ -24,29 +23,13 @@ export class ProfileNavigateComponent implements OnInit {
   previousUrl;
   selectedFile: ImageSnippet;
 
-  profilePictureUrl: string;
-
-  // Boolean for if the profile data is parsed and ready to display
-  profileLoaded: boolean;
-
-  // String to hold if account button or qr code button are pressed
-  selection: string;
-
   fileErrorMsg;
-
   showUploadPicture: boolean;
-  showSpinner: boolean;
-
-  directToAppSelectedApp: string;
-
-  screenHeight: number;
+  showSpinner:boolean;
 
   constructor(private addyaDbService: AddyaDbService, private authService: AwsAuthService, private router: Router) {
     this.showUploadPicture = false;
-    this.profileLoaded = false;
-
-    // 200 is the height of the top section
-    this.screenHeight = window.screen.height - 200;
+    this.showSpinner = false;
   }
 
   ngOnInit() {
@@ -69,7 +52,6 @@ export class ProfileNavigateComponent implements OnInit {
         this.router.navigateByUrl('account');
       }
     }, 5000);
-    this.selection = "none";
   }
 
   ngOnDestroy() {
@@ -84,107 +66,33 @@ export class ProfileNavigateComponent implements OnInit {
           this.router.navigateByUrl('profile/new');
         } else {
           this.userData = response.body[0];
-          this.parseData();
           if (this.userData.picture.value.includes("addya-co")) {
-            this.profilePictureUrl = this.userData.picture.value + "?" + Math.floor(1000 + Math.random() * 9000);
+            this.userData.picture.value = this.userData.picture.value + "?" + Math.floor(1000 + Math.random() * 9000);
           }
         }
       });
     });
   }
 
-  //more needs to be done here to toggle and then save modes
-  toggleMode() {
-    if (this.userData.direct.enabled) {
-      this.userData.direct.enabled = false;
-    } else {
-      this.userData.direct.enabled = true;
-    }
-
-    // Save changes, pass in false so that it doesn't show the spinner
-    this.saveUserData(false);
-  }
-
-  accountButtonClicked() {
-    this.selection = "account";
-  }
-
-  cancelAccountEdit() {
-    // Set selection to none to show main profile page
-    this.selection = "none";
-
-    // Fixed the page from being scrolled down when you cancel
-    var element = document.querySelector('#circle');
-    element.scrollIntoView();
-  }
-
-  saveUserData(showSpinnerAndReturnToHome) {
-    console.log("running save");
-    if (showSpinnerAndReturnToHome) {
-      this.profileLoaded = false;
-      this.showSpinner = true;
-    }
-    //if (this.hasErrors) {
-    //  alert("Fields Missing or Invalid");
-    //} else {
-    this.authService.authCurrentUser().then(creds => {
-      let authToken = creds.signInUserSession.idToken.jwtToken;
-      if (authToken) {
-        let sub = this.addyaDbService.updateUserInfo(this.userData, authToken).subscribe(res => {
-          if (showSpinnerAndReturnToHome) {
-            this.showSpinner = false;
-            this.profileLoaded = true;
-            this.selection = "none";
-          }
-        });
+  routeToQrCode() {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        'scanId': this.userData.scanId,
+        'scanKey': this.userData.scanKey,
+        'fromProfile': true
       }
-    });
-    //}
+    };
+    this.router.navigate(['profile/add'], navigationExtras);
   }
 
-  qrButtonClicked() {
-    this.selection = "qr";
-  }
-
-  cancelQRCode() {
-    this.selection = "none";
-  }
-
-  dragDropButtonClicked(event) {
-    if (event === "add-app") {
-      this.selection = "add-app"
-    } else if (event === "edit-app") {
-      this.selection = "edit-app";
-    }
-  }
-
-  saveAddApp() {
-
-  }
-
-  cancelAddApp() {
-    this.selection = "none";
-  }
-
-  parseData() {
-    console.log(this.userData);
-
-    if (this.userData.direct.enabled) {
-      this.directToAppSelectedApp = this.userData.direct.app;
-    }
-
-    if (this.userData.appList.length === 0) {
-      console.log("test");
-    }
-
-    //if (this.userData.contact && this.userData.contact.value) {
-    //  this.appList[this.userData.contact.order] = this.userData.phone;
-    //}
-    //if (this.userData.email && this.userData.email.value) {
-    //  this.appList[this.userData.email.order] = this.userData.email;
-    //}
-
-    this.profileLoaded = true;
+  routeToTestLink() {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        'scanId': this.userData.scanId,
+        'scanKey': this.userData.scanKey,
+      }
+    };
+    this.router.navigate(['scan'], navigationExtras);
   }
 
   routeToPictureEdit() {
@@ -230,6 +138,7 @@ export class ProfileNavigateComponent implements OnInit {
   signOut() {
     this.authService.signOut();
   }
+
 }
 
 export class ImageSnippet {
